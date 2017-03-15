@@ -1,0 +1,11 @@
+.card {
+  height: 250px;
+  float: left;
+  margin: 5px;
+}
+.hand {
+  clear: both;
+}
+.numberField {
+  width: 30px
+}

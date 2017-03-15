@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html ng-app="cardGame">
+  <head>
+    <title>Gin</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body ng-controller="mainCtrl">
+
+    <h2>Deck Manager</h2>
+    <button type="button" ng-click="grabDeck()" ng-disabled="deckButtonDisabled">New Deck</button>
+    <div>
+      <p>Deck Id: {{deck.deckId}} </p>
+      <p>Remaining Cards: {{deck.remainingCards}}</p>
+    </div>
+    <h3>________________________________________________</h3>
+    <input type="text" placeholder="Player Name" ng-model="playerName">
+    <button type="button" ng-click="newHand()" ng-disabled="!deck.deckId">New Hand</button>
+    <button type="button" ng-click="deal()" ng-disabled="!deck.deckId || !dealCount || !hands">Deal!</button>
+    <input class="numberField" type="number" placeholder="" max="10" ng-model="dealCount">
+
+
+    <div class="hand" ng-repeat="hand in hands">
+      <h4>{{hand.name}}</h4>
+      Cards:   <button type="button" ng-click="drawCard($index, deck.deckId)">Draw Card</button>
+      <div ng-repeat="card in hand.cards">
+        <img class="card"ng-src="{{card.image}}" alt="{{card.code}}">
+      </div>
+      <br>
+    </div>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/mainCtrl.js"></script>
+    <script src="js/cardService.js"></script>
+  </body>
+</html>
