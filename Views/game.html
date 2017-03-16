@@ -1,0 +1,17 @@
+<h4>Welcome, {{localPlayer.name}}</h4>
+
+<button class="button game"  type="button" ng-click="startNewGame()">Start Game</button>
+<button class="button game" type="button" ng-click="game.turn.advancePhase()">Advance Phase</button>
+
+<p>{{game.turn.currentPlayer}}</p>
+<p>{{game.turn.currentPhase}}</p>
+<p>{{game.turn.turnCount}}</p>
+
+<div class="hand" ng-repeat="player in game.players">
+  <h4>{{player.name}}</h4>
+  Cards:   <button class="button game" type="button" ng-click="drawCard($index, game.deckId)">Draw Card</button>
+  <div ng-repeat="card in player.hand">
+    <img class="card"ng-src="{{card.image}}" alt="{{card.code}}">
+  </div>
+  <br>
+</div>

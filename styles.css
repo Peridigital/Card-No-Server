@@ -1,3 +1,65 @@
+* {
+  color: white;
+  font-family: 'Varela Round', sans-serif;
+}
+body {
+  background-image: url('./card-table-texture.png');
+
+  margin: 0px;
+
+}
+.welcome-page {
+  height: 100vh;
+  width: 100vw;
+  margin: 0px;
+
+  position: relative;
+}
+.welcome-text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
+.welcome-text-container > div {
+  margin: 0;
+  font-size: 150px;
+}
+.welcome-text-container > div > *  {
+  margin: 0;
+}
+.player-name-input {
+  width: 250px;
+  text-align: center;
+  font-size: 25px;
+  margin-top: 25px;
+  margin-bottom: 30px;
+  color: rgb(62, 62, 62);
+}
+.button {
+  font-size: 20px;
+
+  color: rgb(233, 233, 233);
+  background-color: rgba(82, 110, 82, 1);
+  padding: 10px;
+  border: none;
+}
+.game {
+  background-color: rgba(55, 65, 55, 1)
+}
+.button:disabled {
+
+  color: rgb(189, 189, 189);
+  background-color: rgba(90, 103, 90, 1);
+
+}
+
+.blur {
+
+  background-color: rgba(165, 185, 165, 0.73)
+}
 .card {
   height: 250px;
   float: left;
