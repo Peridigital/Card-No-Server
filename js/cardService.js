@@ -19,8 +19,10 @@ angular.module('cardGame').service('cardService', function($http) {
       method: 'GET',
       url: 'https://deckofcardsapi.com/api/deck/' + deckId + '/draw/?count=1',
     }).then(function(response){
+      var card = response.data.cards[0]
+      card.selected = false
       return {
-        cards: response.data.cards[0],
+        cards: card,
         remainingCards: response.data.remaining
       }
     })

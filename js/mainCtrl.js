@@ -45,6 +45,7 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
       $scope.game = gameService.makeGame($scope.players, data);
       cardService.drawCard($scope.game.deckId).then(function (data) {
         $scope.game.discardedCards.unshift(data.cards)
+        $scope.aiTurn()
       })
       $scope.deal(7)
 
@@ -55,7 +56,7 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
     $scope.loginPlayer("Aaron")
   }
   $scope.advancePhase = function () {
-    var winCheck = $scope.game.turn.advancePhase()
+    var winCheck = $scope.game.turn.advancePhase($scope.game, $scope.localPlayer)
     if (winCheck) {
       $scope.winner = true
       if (winCheck === $scope.localPlayer.playerID) {
@@ -70,6 +71,7 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
         $scope.game.players[$scope.localPlayer.playerID - 1].hand.push(data.cards)
         $scope.game.remainingCards = data.remainingCards
         $scope.advancePhase()
+        $scope.aiTurn()
       })
     }
   }
@@ -78,6 +80,7 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
       $scope.game.players[$scope.localPlayer.playerID - 1].hand.push($scope.game.discardedCards[0])
       $scope.game.discardedCards.shift()
       $scope.advancePhase()
+      $scope.aiTurn()
 
     }
   }
@@ -88,6 +91,21 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
       $scope.game.players[$scope.localPlayer.playerID - 1].hand.push(winningHand[i])
 
     }
+    $scope.advancePhase()
+    $scope.advancePhase()
+    $scope.aiTurn
+  }
+  $scope.discardCard= function (localPlayer) {
+    if ($scope.game.checkTurn($scope.localPlayer.playerID, 'Discard')) {
+      if (localPlayer.selected) {
+        $scope.game.discardCard(localPlayer)
+        $scope.advancePhase()
+        $scope.aiTurn()
+      } else {
+        console.log('No card selected');
+      }
+
+    }
   }
   $scope.resetGame = function () {
     $scope.game = '';
@@ -95,4 +113,17 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
     $scope.localPlayer = '';
     $scope.winner = '';
   }
+  $scope.aiTurn = function () {
+    if ($scope.game.turn.currentPlayer === $scope.localPlayer.opponent) {
+      $scope.game.players[$scope.localPlayer.opponent - 1].hand.push($scope.game.discardedCards[0])
+      $scope.game.discardedCards.shift()
+      $scope.advancePhase()
+      $scope.game.discardedCards.unshift($scope.game.players[$scope.localPlayer.opponent - 1].hand[0])
+      $scope.game.players[$scope.localPlayer.opponent - 1].hand.splice(0, 1)
+      $scope.advancePhase()
+    }
+  }
+
+
+  //end of the line
 })

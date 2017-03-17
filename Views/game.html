@@ -2,9 +2,10 @@
 
 <button class="button game"  type="button" ng-click="startNewGame()">Start Game</button>
 <button class="button game"  type="button" ng-click="dealWinningHand()">Win the Game</button>
-
 <br>
-<button ng-show="game"class="button game" type="button" ng-click="advancePhase()">
+<button class="button game"  type="button" ng-click="discardCard(localPlayer)">Discard Card</button>
+<br>
+<button ng-show="game"class="button game" type="button">
   It's {{game.players[game.turn.currentPlayer - 1].name}}'s turn <br>
   {{game.turn.currentPhase}} a card
 </button>
