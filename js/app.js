@@ -2,7 +2,7 @@
 
 angular.module('cardGame', ['ui.router'])
 
-  .config( function ($urlRouterProvider, $stateProvider){
+  .config( function ($urlRouterProvider, $stateProvider ){
 
 $urlRouterProvider.when('', '/');
 
@@ -10,13 +10,27 @@ $urlRouterProvider.when('', '/');
     .state('welcome', {
       templateUrl: './views/welcome.html',
 
-      url: '/'
+      url: '/',
+      resolve: {
+        loginCheck: function (gameService, $state) {
+          if (gameService.localPlayer) {
+            $state.go('game')
+          }
+        }
+      }
     })
 
     .state('game', {
       templateUrl: './views/game.html' ,
-      
-      url: '/game'
+
+      url: '/game',
+      resolve: {
+        loginCheck: function (gameService, $state) {
+          if (!gameService.localPlayer) {
+            $state.go('welcome')
+          }
+        }
+      }
     })
 
 })

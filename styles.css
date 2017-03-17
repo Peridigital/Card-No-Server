@@ -47,7 +47,8 @@ body {
   border: none;
 }
 .game {
-  background-color: rgba(55, 65, 55, 1)
+  background-color: rgba(55, 65, 55, 1);
+  margin: 6px
 }
 .button:disabled {
 
@@ -60,14 +61,76 @@ body {
 
   background-color: rgba(165, 185, 165, 0.73)
 }
+.deck-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.deck {
+  height: 250px
+}
+.discard {
+  float: left;
+  background-image: url("Discard-placeholder.png");
+  background-size: 180px 250px;
+  background-repeat: no-repeat;
+  height: 250px;
+  width: 180px;
+  margin: 5px;
+  padding: -5px
+}
+.discard > * {
+  margin: 0px;
+}
 .card {
   height: 250px;
   float: left;
   margin: 5px;
+
+  -webkit-box-shadow: -8px -4px 22px 0px rgba(0,0,0,0.15);
+-moz-box-shadow: -8px -4px 22px 0px rgba(0,0,0,0.15);
+box-shadow: -8px -4px 22px 0px rgba(0,0,0,0.15);
+}
+.card-in-hand {
+
+  margin-bottom: -125px;
+}
+.card-holder {
+  margin: 0 5px;
+  float: left;
 }
 .hand {
   clear: both;
 }
+
 .numberField {
   width: 30px
+}
+
+.local-hand-top {
+  width: 800px;
+  height: 250px;
+  position: fixed;
+  top: -115px;
+  left: 50%;
+  transform: translate(-50%);
+}
+.local-hand-bottom {
+  width: 800px;
+  height: 250px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+}
+.winner {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(165, 185, 165, 0.95);
+  position: fixed;
+  top: 0;
+  font-size: 125px;
+  text-align: center;
+  z-index: 2;
 }

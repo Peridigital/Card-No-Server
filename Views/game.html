@@ -1,17 +1,38 @@
 <h4>Welcome, {{localPlayer.name}}</h4>
 
 <button class="button game"  type="button" ng-click="startNewGame()">Start Game</button>
-<button class="button game" type="button" ng-click="game.turn.advancePhase()">Advance Phase</button>
+<button class="button game"  type="button" ng-click="dealWinningHand()">Win the Game</button>
 
-<p>{{game.turn.currentPlayer}}</p>
-<p>{{game.turn.currentPhase}}</p>
+<br>
+<button ng-show="game"class="button game" type="button" ng-click="advancePhase()">
+  It's {{game.players[game.turn.currentPlayer - 1].name}}'s turn <br>
+  {{game.turn.currentPhase}} a card
+</button>
 <p>{{game.turn.turnCount}}</p>
 
-<div class="hand" ng-repeat="player in game.players">
+
+<!-- <div class="hand" ng-repeat="player in game.players">
   <h4>{{player.name}}</h4>
   Cards:   <button class="button game" type="button" ng-click="drawCard($index, game.deckId)">Draw Card</button>
   <div ng-repeat="card in player.hand">
     <img class="card"ng-src="{{card.image}}" alt="{{card.code}}">
   </div>
   <br>
+</div> -->
+<div class="deck-container">
+  <img class="card" ng-click="drawFromDeck()" src="./card-deck.png" alt="">
+  <div class="discard">
+    <img class="card" ng-click="drawFromDiscard()" ng-show="game.discardedCards[0].image" src="{{game.discardedCards[0].image}}" alt="">
+  </div>
+</div>
+
+<hand-directive class="local-hand" game="game" local-player='localPlayer'></hand-directive>
+
+<button class="button game"  ng-show="winner" type="button" ng-click="game.declareWinner(localPlayer)">Declare Yourself <br> the Winner!</button>
+<div class="winner" ng-show="game.declaredWinner">
+  {{game.declaredWinner}} is the winner!
+    <div ng-repeat="card in game.winningHand">
+      <img class="card"ng-src="{{card.image}}" alt="{{card.code}}">
+    </div>
+    <button class="button"  type="button" ng-click="resetGame()">End Game</button>
 </div>

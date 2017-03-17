@@ -1,7 +1,6 @@
 angular.module('cardGame').controller('mainCtrl', function($scope, cardService, gameService) {
-  $scope.test = cardService.serviceTest
+  $scope.test = 'test'
 
-  $scope.hands = []
   $scope.players = []
 
   //GETs a deck from the API
@@ -40,14 +39,60 @@ angular.module('cardGame').controller('mainCtrl', function($scope, cardService, 
     $scope.localPlayer = gameService.makePlayer(playerName, playerSlot);
     $scope.players.push($scope.localPlayer);
   }
-
+;
   $scope.startNewGame = function () {
     $scope.grabDeck().then(function (data) {
       $scope.game = gameService.makeGame($scope.players, data);
+      cardService.drawCard($scope.game.deckId).then(function (data) {
+        $scope.game.discardedCards.unshift(data.cards)
+      })
       $scope.deal(7)
+
       console.log($scope.game);
     })
     $scope.loginPlayer("Roboto")
+    // TODO Remove after testing
+    $scope.loginPlayer("Aaron")
   }
+  $scope.advancePhase = function () {
+    var winCheck = $scope.game.turn.advancePhase()
+    if (winCheck) {
+      $scope.winner = true
+      if (winCheck === $scope.localPlayer.playerID) {
 
+      }
+    }
+  }
+  $scope.drawFromDeck = function () {
+    if ($scope.game.checkTurn($scope.localPlayer.playerID, 'Draw')) {
+
+      cardService.drawCard($scope.game.deckId).then(function (data) {
+        $scope.game.players[$scope.localPlayer.playerID - 1].hand.push(data.cards)
+        $scope.game.remainingCards = data.remainingCards
+        $scope.advancePhase()
+      })
+    }
+  }
+  $scope.drawFromDiscard = function () {
+    if ($scope.game.checkTurn($scope.localPlayer.playerID, 'Draw')) {
+      $scope.game.players[$scope.localPlayer.playerID - 1].hand.push($scope.game.discardedCards[0])
+      $scope.game.discardedCards.shift()
+      $scope.advancePhase()
+
+    }
+  }
+  $scope.dealWinningHand = function () {
+    $scope.game.players[$scope.localPlayer.playerID - 1].hand = [];
+    var winningHand = gameService.dealWinningHand()
+    for (var i = 0; i < winningHand.length; i++) {
+      $scope.game.players[$scope.localPlayer.playerID - 1].hand.push(winningHand[i])
+
+    }
+  }
+  $scope.resetGame = function () {
+    $scope.game = '';
+    $scope.players = [];
+    $scope.localPlayer = '';
+    $scope.winner = '';
+  }
 })
